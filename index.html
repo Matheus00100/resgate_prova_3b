@@ -1,0 +1,21 @@
+</head>
+<body>
+
+<h1>Buscar Dados</h1>
+<button onclick="buscarDados()">Buscar</button>
+
+<ul id="lista"></ul>
+
+<script>
+function buscarDados(){
+  fetch("https://jsonplaceholder.typicode.com/post")
+    .then(res => res.json())
+    .then(dados => {
+      let lista = document.getElementById("lista")
+      lista.innerHTML = dados.map(item => `<li>${item.title}</li>`)
+    })
+}
+</script>
+
+</body>
+</html>

@@ -1,21 +1,56 @@
 </head>
+<style>
+    /* Estilo para a melhoria na interface (PLUS) */
+    body { font-family: 'Segoe UI', sans-serif; padding: 30px; background: #f4f7f6; text-align: center; }
+    h1 { color: #2c3e50; }
+    button { 
+        background: #3498db; color: white; border: none; padding: 12px 24px; 
+        border-radius: 5px; cursor: pointer; font-size: 16px; font-weight: bold;
+    }
+    button:hover { background: #2980b9; }
+    #lista { max-width: 500px; margin: 20px auto; padding: 0; }
+    li { 
+        background: white; margin-bottom: 10px; padding: 15px; border-radius: 8px; 
+        list-style: none; border-left: 5px solid #3498db; text-align: left;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+</style>
 <body>
 
-<h1>Buscar Dados</h1>
-<button onclick="buscarDados()">Buscar</button>
+    <h1>Resultados da Busca</h1>
+    <button onclick="buscarDados()">Buscar Dados em Português</button>
 
-<ul id="lista"></ul>
+    <ul id="lista"></ul>
 
-<script>
-function buscarDados(){
-  fetch("https://jsonplaceholder.typicode.com/post")
-    .then(res => res.json())
-    .then(dados => {
-      let lista = document.getElementById("lista")
-      lista.innerHTML = dados.map(item => `<li>${item.title}</li>`)
-    })
+    <script>
+    function buscarDados(){
+        const lista = document.getElementById("lista");
+        lista.innerHTML = "<li>Carregando...</li>";
 
-</script>
+        // Criamos uma lista de frases em português para substituir o latim
+        const frasesPortugues = [
+            "O sistema foi inicializado com sucesso",
+            "A conexão com o servidor está estável",
+            "Novos dados foram recebidos da base principal",
+            "A prova de resgate está em andamento",
+            "O código JavaScript foi corrigido com sucesso"
+        ];
+
+        fetch("https://jsonplaceholder.typicode.com/posts")
+            .then(res => res.json())
+            .then(dados => {
+                // Usamos o .map() mas trocamos o título em latim pela nossa frase em PT
+                lista.innerHTML = dados.slice(0, 5).map((item, index) => `
+                    <li>
+                        <strong>Tarefa ${item.id}:</strong> ${frasesPortugues[index]}
+                    </li>
+                `).join('');
+            })
+            .catch(err => {
+                lista.innerHTML = "<li>Erro ao conectar com a API.</li>";
+            });
+    }
+    </script>
 
 </body>
 </html>
